@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setting Chair Areas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <!-- -..style css-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style_roi.css') }}">
+</head>
+<body>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-12">
+        <h1>Setting Areas</h1>
+        <div class="info">
+          <p class="points-info">No points yet</p>
+          <!-- <input> -->
+        </div>
+        <div class="output">
+          <div id="idUuidHolder" data-id_uuid="{{ id_uuid }}"></div>
+          <!-- form 2 -->
+          <form action="{{ url_for('store_number_area', id_uuid=id_uuid) }}" method="post" class="row g-3">
+            <div class="col-auto">
+              <label for="number" class="visually-hidden">chair</label>
+              <input type="number" class="form-control" id="number" name="number" required>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary mb-3" >submit</button>
+            </div>
+          </form>
+          <canvas id="canvas"></canvas>
+          <div class="zoom"></div>
+          <div class="container">
+            <div class="row">
+                <!-- <div class="col text-md-start">
+                  <form action="{{ url_for('send_database', id_uuid=id_uuid) }}" method="post">
+                    <button type="submit" class="btn btn-primary">Save Areas</button>
+                  </form>
+                </div> -->
+                <div class="col text-md-end">
+                  <a href="{{ url_for('area_coordinates', id_uuid=id_uuid) }}"><button type="button" class="btn btn-primary">Next</button></a>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+  </div>
+  <!-- script js roi-->
+  <script src="{{ url_for('static', filename='js/script_roi.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
