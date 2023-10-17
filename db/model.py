@@ -1,13 +1,6 @@
-from sqlalchemy import String,create_engine,ForeignKey,DateTime,LargeBinary,Integer,Column, Text, JSON, UUID
+from sqlalchemy import DateTime,LargeBinary,Integer,Column, Text, JSON, UUID
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, ValidationError
-from sqlalchemy.orm import relationship
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from sqlalchemy import select
-from sqlalchemy.sql import func 
 
 Base = declarative_base()
 

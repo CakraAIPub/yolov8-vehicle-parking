@@ -2,44 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Vehicle Parking</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+      body {
+        background-image: url("{{ url_for('static', filename='images/transport-concept-parked-vehicles.jpg') }}");
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    </style>
   </head>
   <body>
-    <nav class="navbar bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">
-          <!-- <img src="static/images copy/roi-1.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-          cctv ai  -->
-        </a>
-      </div>
-    </nav>
-    <div class="container-fluid">
-        <div class="center text-center ">
-            <div class="row">
-              <h1 class="fs-2 text">Welcome</h1>
-              <p class="fw-normal">Get started with entering your CCTV</p>
-            </div>
-            <div class="row">
-              <div class="col"></div>
-              <div class="col-3">
-                <form action="/store_url" method="post" class="row">
-                  <div class="col-12 col-md-8">
-                      <input type="text" class="form-control" id="urlLink" name="urlLink" placeholder="Link RTSP" required>
-                  </div>
-                  <div class="col-auto">
-                      <button type="submit" class="btn btn-primary mb-3" >Start</button>
-                  </div>
-                </form>
+    <div class="box">
+      <div class="container">
+        <div class="card text-bg-dark mb-3 text-center">
+          <div class="card-header" style="font-weight: bold;">
+            Welcome
+          </div>        
+          <div class="card-body">
+            <p class="card-text">To get start, please input your CCTV RTSP/HTTP.</p>        
+            <form action="/store_url" method="post" class="row">
+              <div class="col-12 col-md-9">
+                  <input type="text" class="form-control" id="urlLink" name="urlLink" placeholder="Link RTSP" required>
               </div>
-              <div class="col"></div>
-            </div>
-           
+              <div class="col-auto">
+                  <button type="submit" class="btn btn-outline-light" >Start</button>
+              </div>
+            </form>
+          </div>
+        </div>
         </div>
     </div>
-   
+    </div>   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   </body>
 </html>

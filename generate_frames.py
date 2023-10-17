@@ -1,7 +1,6 @@
 from ultralytics import YOLO
 import cv2
 import cvzone
-import time
 import numpy as np
 from db.queries import *
 

@@ -1,13 +1,10 @@
-from flask import flash,redirect, url_for,send_file,render_template, Response, jsonify, Flask, request
+from flask import send_file,render_template, Response, Flask, request
 import uuid
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from io import BytesIO
 from db.queries import *
 import db.model as dbm
 from db.database import *
 from generate_frames import *
-from flask_bcrypt import Bcrypt
-import os
 
 app = Flask(__name__)
 dbm.Base.metadata.create_all(bind=engine)
@@ -37,7 +34,7 @@ def generate_frame(id_uuid):
 
 @app.route('/video_feed/<id_uuid>', methods=["GET"])
 def video_feed(id_uuid):
-    return render_template("video_frame.html", id_uuid=id_uuid)
+    return render_template("home.html", id_uuid=id_uuid)
 
 @app.route('/frame_feed/<id_uuid>')
 def frame_feed(id_uuid):
@@ -92,4 +89,4 @@ def video_feed_area(id_uuid):
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__" :
-    app.run(debug=True, port=8989)
+    app.run(debug=True, port=8080)

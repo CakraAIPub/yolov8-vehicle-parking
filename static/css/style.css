@@ -1,6 +1,28 @@
-.container {
-	position: relative;
-	height: 100vh;
+/* POPPINS FONT */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+*{
+    font-family: 'Poppins', sans serif;
+}
+body {
+	background-color: black; /* Set the background color to black */
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+  }
+  
+
+.box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+.container{
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px 0 15px;
 }
   
 .center {
@@ -12,7 +34,6 @@
 
 .center-video {
 	position: absolute;
-	top: 10%;
 	text-align: center;
 }
 
@@ -23,4 +44,12 @@
 	flex-wrap: wrap;
 	/* margin-right: -7.5px;
 	margin-left: -7.5px; */
+}
+
+.container-video{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	height: flex;
+	margin-top: 20px;
 }
