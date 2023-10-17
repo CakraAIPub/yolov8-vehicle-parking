@@ -3,7 +3,7 @@ var context = canvas.getContext("2d");
 var infoPoints = document.querySelector(".points-info");
 var zoomWindow = document.querySelector(".zoom");
 var clickPoints = [];
-var drawingLine = false; // Menandakan apakah sedang menggambar garis sementara
+var drawingLine = false;
 var polygonCount = 0;
 const coordPolygons = [];
 
@@ -11,22 +11,19 @@ canvas.addEventListener("click", handleCanvasClick);
 canvas.addEventListener("mousemove", handleCanvasMouseMove);
 
 function handleCanvasClick(evt) {
-  const maxPolygons = parseInt(document.getElementById("number").value, 10); // Convert input value to an integer
+  const maxPolygons = parseInt(document.getElementById("number").value, 10); 
 
   if (polygonCount < maxPolygons) {
-    // Add the point to clickPoints directly, no need to use push.
     clickPoints.push([evt.offsetX, evt.offsetY]);
-    drawDot(evt.offsetX, evt.offsetY); // Pass coordinates to drawDot
+    drawDot(evt.offsetX, evt.offsetY); 
 
     if (clickPoints.length === 4) {
-      // Here, we should push a copy of clickPoints to coordPolygons.
       coordPolygons.push([...clickPoints]);
       drawPoly(clickPoints);
-      polygonCount++; // Increment polygon count
+      polygonCount++;
       if (polygonCount === maxPolygons) {
-        canvas.removeEventListener("click", handleCanvasClick); // Remove the click event listener
+        canvas.removeEventListener("click", handleCanvasClick); 
       }
-      // Clear clickPoints after adding to coordPolygons.
       clickPoints.length = 0;
     }
 
@@ -36,6 +33,7 @@ function handleCanvasClick(evt) {
   }
 }
 
+// handling canvas mouse move
 function handleCanvasMouseMove(evt) {
   if (clickPoints.length > 0) {
     drawingLine = true;
@@ -57,7 +55,7 @@ function redrawCanvas() {
   }
 }
 
-// draw polygon from a list of 4 points
+// draw the polygons
 const drawPoly = (points) => {
   context.lineWidth = 2;
 
@@ -66,10 +64,11 @@ const drawPoly = (points) => {
   for (let i = 1; i < points.length; i++) {
     context.lineTo(points[i][0], points[i][1]);
   }
-  context.closePath(); // Menutup polygon
+  context.closePath();
   context.stroke();
 };
 
+// saving coordinates area 
 const savePolygon = (coordinates) => {
   var idUuidHolder = document.getElementById("idUuidHolder");
   var id_uuid = idUuidHolder.getAttribute("data-id_uuid");

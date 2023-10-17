@@ -6,6 +6,7 @@ from db.queries import *
 
 model = YOLO('yolov8n.pt')
 
+#functio to generate cctv frame without object detection model
 def generate_frames(id_uuid):
     url = get_url(id_uuid)
     cap = cv2.VideoCapture(url)
@@ -22,9 +23,10 @@ def generate_frames(id_uuid):
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         else:
-            # Break the loop if the end of the video is reached
+            #break the loop if the end of the video is reached
             break
 
+#function for generate screenshoot of video for setting areas
 def generate_ss(id_uuid):
     url = get_url(id_uuid)
     cap = cv2.VideoCapture(url) 
@@ -35,6 +37,7 @@ def generate_ss(id_uuid):
         return "Image saved to database succesfuly"
     return "Failed to save the image"
 
+#function for generating frame cctv with object detection model
 def generate_frames_area(id_uuid):
     url = get_url(id_uuid)
     cap = cv2.VideoCapture(url)
@@ -68,13 +71,10 @@ def generate_frames_area(id_uuid):
             space = space_occupancy.count(0)
             cvzone.putTextRect(frame, f'sisa parkir: {str(space)}', (50,50),1,1)
 
-            #encode the frame as JPEG
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
 
-            #yield the frame in byte format
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         else:
-            # Break the loop if the end of the video is reached
             break
