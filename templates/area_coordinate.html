@@ -4,23 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chair Counting</title>
+    <style>
+        #video-feed {
+            position: relative;
+            z-index: 1;
+        }
+
+        #polygonCanvas {
+            position: absolute;
+            top: 58px;
+            left: 37px;
+            z-index: 2;
+        }
+    </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="container-video">
-        <div class="card text-center h-100 col-9">
-            <div class="card-header">
-                Vehicle Parking Counting
+    <div id="idUuidHolder" data-id_uuid="{{ id_uuid }}"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-10">
+                <div class="container-video">
+                    <div class="card text-center h-100 col-11">
+                        <div class="card-header">
+                            Vehicle Parking Counting
+                        </div>
+                        <div class="card-body">
+                            <img id="video-feed" src="{{ url_for('video_feed_area', id_uuid=id_uuid) }}" class="img-fluid" alt="CCTV" width="1280" height="720">
+                            <canvas id="polygonCanvas" width="1280" height="720"></canvas>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('video_feed', id_uuid=id_uuid) }}"><button type="button" class="btn btn-outline-dark">Back</button></a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <img id="video-feed" src="{{ url_for('video_feed_area', id_uuid=id_uuid) }}" class="img-fluid" alt="CCTV" width="1280" height="720">
-            </div>
-            <div class="card-footer">
-                <a href="{{ url_for('video_feed', id_uuid=id_uuid) }}"><button type="button" class="btn btn-outline-dark">Back</button></a>
+            <div class="col-2">         
+                <div class="container-card">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <div id="space">Space Parking: 0</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="noButton" value="no" checked>
+                                <label class="form-check-label" for="noButton">
+                                    Don't show area parking
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="yesButton" value="yes">
+                                <label class="form-check-label" for="yesButton">
+                                    Show area parking
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    
+    <script src="{{ url_for('static', filename='js/script_area.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+    
+        socket.on('connect', function() {
+            socket.emit('space_update', {});
+        });
+    
+        socket.on('space_update', function(data) {
+            // Update your front-end element with the new space value
+            var spaceElement = document.getElementById('space');
+            spaceElement.innerHTML = 'Sisa parkir: ' + data.space;
+        });
+    </script>
 </body>
 </html>

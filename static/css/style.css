@@ -4,7 +4,7 @@
     font-family: 'Poppins', sans serif;
 }
 body {
-	background-color: black; /* Set the background color to black */
+	background-color: rgb(0, 0, 0); /* Set the background color to black */
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -48,8 +48,25 @@ body {
 
 .container-video{
     display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+	height: flex;
+	margin-top: 40px;
+	margin-left: 40px;
+}
+
+.container-preview-video{
+    display: flex;
     justify-content: center;
     align-items: center;
 	height: flex;
 	margin-top: 20px;
+}
+
+.container-card{
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+	height: flex;
+	margin-top: 40px;
 }
