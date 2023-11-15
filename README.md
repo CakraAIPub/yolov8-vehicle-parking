@@ -11,6 +11,9 @@ This program is Flask-based web application with using YoloV8 model from Ultraly
 * Installing Python 3.9
 * Connect to database (this program used postgresql)
 
+## Demo
+
+
 
 
 

@@ -46,15 +46,22 @@ body {
 	margin-left: -7.5px; */
 }
 
-.container-video{
-    display: flex;
-    /* justify-content: center; */
-    /* align-items: center; */
-	height: flex;
-	margin-top: 40px;
-	margin-left: 40px;
-}
+.container-video {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+  }
 
+.container-video-result{
+    display: flex;
+    /* justify-content: center;
+    align-items: center; */
+	height: 720;
+	/* margin-top: 5px;
+	margin-left: 1px; */
+}
+  
 .container-preview-video{
     display: flex;
     justify-content: center;
@@ -64,9 +71,10 @@ body {
 }
 
 .container-card{
-    display: flex;
-    /* justify-content: center; */
-    /* align-items: center; */
-	height: flex;
-	margin-top: 40px;
+    display: absolute;
+    /* justify-content: center;
+    align-items: center; */
+	/* height: flex; */
+	margin-top: 5%;
+	/* margin-left: 15%; */
 }

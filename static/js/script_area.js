@@ -47,5 +47,26 @@ function getCoordinatesAndDraw() {
 document.getElementById("noButton").addEventListener("change", getCoordinatesAndDraw);
 document.getElementById("yesButton").addEventListener("change", getCoordinatesAndDraw);
 
+
+function getCoordinatesPark(){
+    fetch(`get_coordinates/${id_uuid}`)
+    .then(response => response.json())
+    .then(data => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        coordinates = data;
+
+        for (const key in coordinates) {
+            if (coordinates.hasOwnProperty(key)) {
+                drawPolygon(coordinates[key]);
+            }
+        }
+    })
+    .catch(error => {
+        console.error("Fetch error:", error);
+    });
+}
+
+
+
 // Initial drawing based on the default radio button state
 getCoordinatesAndDraw();

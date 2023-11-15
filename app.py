@@ -25,6 +25,11 @@ model = YOLO('yolov8n.pt')
 def send_space(space):
     socketio.emit('space_update',{'space': space})
 
+def send_location(space_occupancy):
+    for idx, area_occupancy in enumerate(space_occupancy):
+        if area_occupancy == 0:
+            socketio.emit('space_location', {'location': idx})
+
 #functio to generate cctv frame without object detection model
 def generate_frames(id_uuid):
     url = get_url(id_uuid)
@@ -63,6 +68,7 @@ def generate_frames_area(id_uuid):
     cap = cv2.VideoCapture(url)
 
     areas = get_coords(id=id_uuid)
+    location = {}
 
     while cap.isOpened():
         success, frame = cap.read()
@@ -80,16 +86,18 @@ def generate_frames_area(id_uuid):
                     for i,area in areas.items():
                         result_pol = cv2.pointPolygonTest(np.array(area,np.int32),(cx,cy),False)
                         if result_pol >=0:
-                            # cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
                             # cv2.circle(frame, (cx, cy), 3, (0, 0, 255), -1)
                             space_occupancy[i] = 1
+                            
 
             # for area_coords in areas.values():
             #     area_coords_np = np.array(area_coords, np.int32).reshape((-1, 1, 2))
             #     cv2.polylines(frame, [area_coords_np], isClosed=True, color=(1, 1, 1), thickness=2)
-
+            
+            send_location(space_occupancy)
             space = space_occupancy.count(0)
-            send_space(space=space)
+            send_space(space)
             # cvzone.putTextRect(frame, f' {str(areas)}', (50,50),1,1)
 
             ret, buffer = cv2.imencode('.jpg', frame)
@@ -163,23 +171,10 @@ def save_coordinates(id_uuid):
     insert_coordinates(id_uuid=id_uuid,coordinates=coordinates)
     return all_coords
 
-@app.route('/send_database/<id_uuid>', methods=["GET","POST"])
-def send_database(id_uuid):
-    data = save_coordinates()
-    if request.method == 'POST':
-        insert_coordinates(id_uuid=id_uuid, coordinates=data)
-        print(f'now: {data}')
-        return '', 204
-    return "get request"
-
 @app.route('/area_coordinates/<id_uuid>')
 def area_coordinates(id_uuid):
     coordinates = get_coords(id_uuid)
     return render_template('area_coordinate.html', id_uuid=id_uuid, coordinates_json=coordinates)
-
-@app.route('/toggle_yes_no/<id_uuid>', methods=['POST'])
-def toggle_yes_no(id_uuid):
-    return '', 204
 
 @app.route('/get_coordinates/<id_uuid>')
 def get_coordinates(id_uuid):
@@ -192,4 +187,4 @@ def video_feed_area(id_uuid):
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == "__main__" :
-    app.run(debug=True, port=8080)
+    app.run(debug=True, port=8083, host='0.0.0.0')

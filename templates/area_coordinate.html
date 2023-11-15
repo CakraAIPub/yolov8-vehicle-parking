@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chair Counting</title>
+    <title>Vehicle Parking</title>
     <style>
         #video-feed {
             position: relative;
@@ -13,7 +13,7 @@
         #polygonCanvas {
             position: absolute;
             top: 58px;
-            left: 37px;
+            left: 16px;
             z-index: 2;
         }
     </style>
@@ -24,9 +24,60 @@
     <div id="idUuidHolder" data-id_uuid="{{ id_uuid }}"></div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-10">
-                <div class="container-video">
-                    <div class="card text-center h-100 col-11">
+            <div class="col-1 mb-3"></div>
+            <div class="col-2 mb-3">         
+                <div class="container-card">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <div>Sisa parkir</div>
+                        </div>
+                        <div class="card-body">
+                            <div id="space" style="font-size: 30px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">         
+                <div class="container-card">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            Show Area Parking
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="noButton" value="no" checked>
+                                <label class="form-check-label" for="noButton">
+                                    Don't show area 
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="yesButton" value="yes">
+                                <label class="form-check-label" for="yesButton">
+                                    Show area 
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-2 mb-3">         
+                <div class="container-card">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            Nomor Parkiran Kosong
+                        </div>
+                        <div class="card-body">
+                            <div id="parking_status"></div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-11">
+                <div class="container-video-result">
+                    <div class="card text-center">
                         <div class="card-header">
                             Vehicle Parking Counting
                         </div>
@@ -40,29 +91,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-2">         
-                <div class="container-card">
-                    <div class="card text-center">
-                        <div class="card-header">
-                            <div id="space">Space Parking: 0</div>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="noButton" value="no" checked>
-                                <label class="form-check-label" for="noButton">
-                                    Don't show area parking
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="yesButton" value="yes">
-                                <label class="form-check-label" for="yesButton">
-                                    Show area parking
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     
@@ -71,15 +99,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
     <script>
         var socket = io.connect('http://' + document.domain + ':' + location.port);
-    
+
         socket.on('connect', function() {
             socket.emit('space_update', {});
+            socket.emit('space_location', {});
         });
-    
+
         socket.on('space_update', function(data) {
-            // Update your front-end element with the new space value
             var spaceElement = document.getElementById('space');
-            spaceElement.innerHTML = 'Sisa parkir: ' + data.space;
+            spaceElement.innerHTML = data.space;
+            spaceElement.style.fontSize = '30px';
+        });
+
+        socket.on('space_location', function(data) {
+            const location = data.location;
+            const message = `Area parkir ${location} kosong`;
+            document.getElementById('parking_status').innerHTML += `<p>${message}</p>`;
         });
     </script>
 </body>
